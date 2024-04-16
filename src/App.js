@@ -59,7 +59,7 @@ const App = () => {
         }
 
         try {
-            const response = await fetch('http://localhost:8000/completions', options)
+            const response = await fetch('http://3.90.50.218:8000/completions', options)
             const data = await response.json()
             setMessage(data)
         }
