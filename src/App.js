@@ -126,7 +126,7 @@ const App = () => {
                       </div>
 
                       <p className="info">
-                          SymposiumGPT Version 1
+                          SinirjiGPT Version 1
                       </p>
                   </div>
             </section>

@@ -1,4 +1,7 @@
 const OpenAI = require('openai')
+const fs = require('fs')
+const http = require('http')
+const https = require('https')
 const express = require('express')
 const axios = require('axios');
 const cors = require('cors')
@@ -9,7 +12,14 @@ const openai = new OpenAI({
     apiKey: process.env.OPENAI_API_KEY
 })
 
+var options = {
+    key: fs.readFileSync('./ssl/privatekey.pem'),
+    cert: fs.readFileSync('./ssl/certificate.pem'),
+};
+
 const app = express()
+const httpApp = express()
+
 app.use(express.json())
 app.use(cors())
 
@@ -165,7 +175,15 @@ app.post('/completions', async (req, res) => {
 
 app.run = async function()  {
 
-    app.listen(process.env.PORT, () => console.log('Server running on port ' + process.env.PORT))
+    httpApp.get("*", function(req, res, next) {
+        res.redirect("https://" + req.headers.host + req.path);
+    });
+
+    http.createServer(httpApp).listen(80, function() {
+        console.log("Http server running on port 80");
+    });
+
+    https.createServer(options, app).listen(process.env.PORT, () => console.log('Https server running on port ' + process.env.PORT))
 }
 
 app.run();
