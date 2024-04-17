@@ -107,7 +107,7 @@ const App = () => {
                     <p>Symposium Technologies</p>
                 </nav>
             </section><section className="main">
-                  {!currentTitle && <h1>SymposiumGPT</h1>}
+                  {!currentTitle && <h1>SinirjiGPT</h1>}
                   <ul className="feed">
                       {currentChat?.map((chatMessage, index) => <li key={index}>
                           <p className="role">{chatMessage.role}</p>
