@@ -28,7 +28,7 @@ const App = () => {
         removeCookie('token')
         removeCookie('assistant_id')
 
-        await fetch('http://localhost:8000/logout', {
+        await fetch('http://chat.sinijri.com/logout', {
             method : 'POST',
             headers: {'Content-Type' : 'application/json'},
             body : JSON.stringify(({auth_token: authToken}))
@@ -59,7 +59,7 @@ const App = () => {
         }
 
         try {
-            const response = await fetch('http://3.90.50.218:8000/completions', options)
+            const response = await fetch('http://chat.sinijri.com/completions', options)
             const data = await response.json()
             setMessage(data)
         }

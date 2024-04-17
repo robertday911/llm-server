@@ -11,7 +11,7 @@ const Auth = () => {
         e.preventDefault()
         setError(null)
 
-        const response = await fetch('http://3.90.50.218:8000/login', {
+        const response = await fetch('http://chat.sinijri.com/login', {
             method : 'POST',
             headers: {'Content-Type' : 'application/json'},
             body : JSON.stringify({userName, password})
