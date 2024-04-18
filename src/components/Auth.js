@@ -11,7 +11,7 @@ const Auth = () => {
         e.preventDefault()
         setError(null)
 
-        const response = await fetch('https://chat.sinirji.com/login', {
+        const response = await fetch(`https://chat.sinirji.com/login`, {
             method : 'POST',
             headers: {'Content-Type' : 'application/json'},
             body : JSON.stringify({userName, password})
@@ -22,6 +22,7 @@ const Auth = () => {
             setCookie('userName', userName)
             setCookie('token', data.token)
             setCookie('assistant_id', data.assistant_id)
+            setCookie('file_ids', data.file_ids)
 
             window.location.reload()
         }

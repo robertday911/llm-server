@@ -56,7 +56,8 @@ app.post('/login', async (req, res) => {
     res.send({
         status : response.data.status,
         token : response.data.data.token,
-        assistant_id : response.data.data.user.open_ai_assistant
+        assistant_id : response.data.data.user.open_ai_assistant,
+        file_ids: response.data.data.user.open_ai_file_ids
     });
 })
 
@@ -110,7 +111,8 @@ app.post('/completions', async (req, res) => {
 
             await openai.beta.threads.messages.create(thread_id, {
                 role: "user",
-                content: req.body.message
+                content: req.body.message,
+                file_ids: req.body.file_ids
             })
 
             const new_run = await openai.beta.threads.runs.create(thread_id, {
@@ -184,6 +186,10 @@ app.run = async function()  {
     });
 
     https.createServer(options, app).listen(process.env.PORT, () => console.log('Https server running on port ' + process.env.PORT))
+
+    /*app.listen(process.env.PORT, function() {
+        console.log("Http server running on port " + process.env.PORT);
+    });*/
 }
 
 app.run();

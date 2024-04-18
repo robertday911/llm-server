@@ -14,6 +14,7 @@ const App = () => {
 
     const authToken = cookies.token;
     const assistantID = cookies.assistant_id;
+    const fileIDs = cookies.file_ids;
 
     const currentChat = previousChats.filter(previousChat => previousChat.title === currentTitle)
     const uniqueTitles = Array.from(new Set(previousChats.map(previousChat => previousChat.title)))
@@ -27,8 +28,9 @@ const App = () => {
     const Logout = async () => {
         removeCookie('token')
         removeCookie('assistant_id')
+        removeCookie('file_ids')
 
-        await fetch('https://chat.sinirji.com/logout', {
+        await fetch(`https://chat.sinirji.com/logout`, {
             method : 'POST',
             headers: {'Content-Type' : 'application/json'},
             body : JSON.stringify(({auth_token: authToken}))
@@ -51,7 +53,8 @@ const App = () => {
                 message : value,
                 thread_id : thread_id,
                 auth_token: authToken,
-                assistant_id : assistantID
+                assistant_id : assistantID,
+                file_ids : fileIDs
             })),
             headers : {
                 "Content-Type" : "application/json"
@@ -59,7 +62,7 @@ const App = () => {
         }
 
         try {
-            const response = await fetch('https://chat.sinirji.com/completions', options)
+            const response = await fetch(`https://chat.sinirji.com/completions`, options)
             const data = await response.json()
             setMessage(data)
         }
