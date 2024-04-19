@@ -87,6 +87,8 @@ app.post('/completions', async (req, res) => {
 
         try {
 
+            console.log(req.body);
+
             const {auth_token} = req.body;
 
             // check user is valid
