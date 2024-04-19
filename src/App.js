@@ -1,4 +1,4 @@
-import {useState, useEffect} from 'react'
+import {useState, useEffect, useRef} from 'react'
 import {useCookies} from "react-cookie";
 import MarkdownView from "react-showdown";
 
@@ -7,6 +7,7 @@ import Auth from "./components/Auth";
 const App = () => {
 
     const [value, setValue] = useState(null)
+    const question = useRef(null)
     const [message, setMessage] = useState(null)
     const [previousChats, setPreviousChats] = useState([])
     const [currentTitle, setCurrentTitle] = useState(null)
@@ -30,6 +31,7 @@ const App = () => {
         removeCookie('assistant_id')
         removeCookie('file_ids')
 
+        //await fetch(`http://localhost:8000/logout`, {
         await fetch(`https://chat.sinirji.com/logout`, {
             method : 'POST',
             headers: {'Content-Type' : 'application/json'},
@@ -44,6 +46,9 @@ const App = () => {
     }
 
     const getMessages = async () => {
+
+        question.current.value = "";
+        document.getElementById("question_input").focus();
 
         let thread_id = currentChat.length ? currentChat[0].thread_id : null
 
@@ -62,6 +67,7 @@ const App = () => {
         }
 
         try {
+            //const response = await fetch(`http://localhost:8000/completions`, options)
             const response = await fetch(`https://chat.sinirji.com/completions`, options)
             const data = await response.json()
             setMessage(data)
@@ -124,7 +130,7 @@ const App = () => {
                   </ul>
                   <div className="bottom-section">
                       <div className="input-container">
-                          <input value={value} onChange={(e) => setValue(e.target.value)}/>
+                          <input id="question_input" autoFocus ref={question} onChange={(e) => setValue(e.target.value)}/>
                           <div id="submit" onClick={getMessages}>➢</div>
                       </div>
 
